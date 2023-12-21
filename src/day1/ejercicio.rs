@@ -1,5 +1,7 @@
 use crate::ejercicio::Ejercicio;
 
+pub const ARCHIVO_DIA_1: &str = "src/day1/file";
+
 pub struct Day1 {
     file: String,
 }
@@ -109,7 +111,7 @@ impl Day1 {
 }
 
 #[cfg(test)]
-mod pruebas {
+mod pruebas_dia_1 {
     use super::*;
     
     #[test]
