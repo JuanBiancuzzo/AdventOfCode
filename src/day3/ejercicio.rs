@@ -1,5 +1,9 @@
 use crate::ejercicio::Ejercicio;
-use super::elemento::Elemento;
+use super::{
+    elemento::Elemento,
+    gear::Gear,
+};
+
 
 pub const ARCHIVO_DIA_3: &str = "src/day3/file";
 
@@ -12,7 +16,7 @@ impl<const N: usize, const M: usize> Ejercicio for Day3<N, M> {
         let mapa = Self::crear_mapa(&self.file);
         (
             Self::calcular_valores(&mapa), 
-            Self::calcular_valores(&mapa)
+            Self::calcular_gear_ratios(&mapa)
         )
     }
 }
@@ -38,11 +42,17 @@ impl<const N: usize, const M: usize> Day3<N, M> {
 
     fn calcular_valores(mapa: &[[char; N]; M]) -> u32 {
         Self::obtener_elementos(mapa).iter()
-            .filter_map(|elemento| Self::elemento_valido(elemento, mapa))
+            .filter_map(|elemento| elemento.elemento_valido::<N, M>(mapa))
             .sum::<u32>()
     }
 
-    fn obtener_elementos(mapa: &[[char; N]; M]) -> Vec<Elemento> {
+    fn calcular_gear_ratios(mapa: &[[char; N]; M]) -> u32 {
+        Self::obtener_gears(mapa).iter()
+            .filter_map(|gear| gear.gear_ratio(mapa))
+            .sum::<u32>()
+    }
+
+    pub fn obtener_elementos(mapa: &[[char; N]; M]) -> Vec<Elemento> {
         let mut elementos: Vec<Elemento> = vec![];
 
         for (i, linea) in mapa.iter().enumerate() {
@@ -73,35 +83,18 @@ impl<const N: usize, const M: usize> Day3<N, M> {
         elementos
     }
 
-    fn elemento_valido(elemento: &Elemento, mapa: &[[char; N]; M]) -> Option<u32> {
-        let posicion = (
-            elemento.inicio.0 as i32,
-            elemento.inicio.1 as i32
-        );
-        let longitud = elemento.longitud() as i32;
+    fn obtener_gears(mapa: &[[char; N]; M]) -> Vec<Gear> {
+        let mut gears: Vec<Gear> = vec![];
 
-        let mut posiciones: Vec<(i32, i32)> = vec![
-            (posicion.0, posicion.1 - 1),
-            (posicion.0, posicion.1 + longitud),
-        ];
-
-        for j in (posicion.1 - 1)..(posicion.1 + longitud + 1) {
-            posiciones.push((posicion.0 - 1, j));
-            posiciones.push((posicion.0 + 1, j));
+        for (i, linea) in mapa.iter().enumerate() {
+            for (j, caracter) in linea.iter().enumerate() {
+                if *caracter == '*' {
+                    gears.push(Gear::new((i as u32, j as u32)));
+                }
+            }
         }
 
-        if posiciones.iter()
-            .filter_map(|(i, j)| {
-                let i = usize::try_from(*i).ok()?;
-                let j = usize::try_from(*j).ok()?;
-
-                mapa.get(i)?.get(j)
-            })
-            .any(|caracter| *caracter != '.') {
-            return Some(elemento.valor);
-        }
-
-        None
+        gears
     }
 }
 
@@ -146,9 +139,9 @@ mod pruebas_dia_3 {
         let elemento535 = Elemento::new(535, (0, 7));
         let elemento622 = Elemento::new(622, (0, 29));
 
-        assert_eq!(Some(431), Day3::<35, 1>::elemento_valido(&elemento431, &mapa));
-        assert_eq!(None, Day3::<35, 1>::elemento_valido(&elemento535, &mapa));
-        assert_eq!(Some(622), Day3::<35, 1>::elemento_valido(&elemento622, &mapa));
+        assert_eq!(Some(431), elemento431.elemento_valido::<35, 1>(&mapa));
+        assert_eq!(None, elemento535.elemento_valido::<35, 1>(&mapa));
+        assert_eq!(Some(622), elemento622.elemento_valido::<35, 1>(&mapa));
     }
 
     #[test]
@@ -162,11 +155,77 @@ mod pruebas_dia_3 {
         let elemento123 = Elemento::new(123, (1, 23));
         let elemento622 = Elemento::new(622, (1, 29));
 
-        assert_eq!(Some(431), Day3::<35, 3>::elemento_valido(&elemento431, &mapa));
-        assert_eq!(Some(535), Day3::<35, 3>::elemento_valido(&elemento535, &mapa));
-        assert_eq!(Some(356), Day3::<35, 3>::elemento_valido(&elemento356, &mapa));
-        assert_eq!(None,      Day3::<35, 3>::elemento_valido(&elemento123, &mapa));
-        assert_eq!(Some(622), Day3::<35, 3>::elemento_valido(&elemento622, &mapa));
+        assert_eq!(Some(431), elemento431.elemento_valido::<35, 3>(&mapa));
+        assert_eq!(Some(535), elemento535.elemento_valido::<35, 3>(&mapa));
+        assert_eq!(Some(356), elemento356.elemento_valido::<35, 3>(&mapa));
+        assert_eq!(None,      elemento123.elemento_valido::<35, 3>(&mapa));
+        assert_eq!(Some(622), elemento622.elemento_valido::<35, 3>(&mapa));
     }
 
+    #[test]
+    fn obtener_gears_del_mapa() {
+        let mapa = Day3::<35, 3>::crear_mapa(
+            "..*.......25..13.....64....48......\n....*....*....*...87*.......*24....\n............76......20....58.57...."
+            );
+        
+        let gear1 = Gear::new((0, 2));
+        let gear2 = Gear::new((1, 4));
+        let gear3 = Gear::new((1, 9));
+        let gear4 = Gear::new((1, 14));
+        let gear5 = Gear::new((1, 20));
+        let gear6 = Gear::new((1, 28));
+
+        let gears = Day3::<35, 3>::obtener_gears(&mapa);
+
+        assert_eq!(gears[0], gear1);
+        assert_eq!(gears[1], gear2);
+        assert_eq!(gears[2], gear3);
+        assert_eq!(gears[3], gear4);
+        assert_eq!(gears[4], gear5);
+        assert_eq!(gears[5], gear6);
+    }
+
+    #[test]
+    fn gear_con_cero_uno_dos_tres_cuatro_elementos() {
+        let mapa = Day3::<35, 3>::crear_mapa(
+            "..*.......25..13.....64....48......\n....*....*....*...87*.......*24....\n............76......20....58.57...."
+            );
+        
+        let gear1 = Gear::new((0, 2));
+        let gear2 = Gear::new((1, 4));
+        let gear3 = Gear::new((1, 9));
+        let gear4 = Gear::new((1, 14));
+        let gear5 = Gear::new((1, 20));
+        let gear6 = Gear::new((1, 28));
+
+        assert_eq!(None, gear1.gear_ratio(&mapa));
+        assert_eq!(None, gear2.gear_ratio(&mapa));
+        assert_eq!(None, gear3.gear_ratio(&mapa));
+        assert_eq!(Some(13 * 76), gear4.gear_ratio(&mapa));
+        assert_eq!(None, gear5.gear_ratio(&mapa));
+        assert_eq!(None, gear6.gear_ratio(&mapa));
+    }
+
+    #[test]
+    fn gear_con_varias_configuraciones() {
+        let mapa = Day3::<35, 3>::crear_mapa(
+            "...*762.....24.......12*754....647.\n.34...*..57*...123..............*..\n....59.......58*......23*45....873."
+            );
+        
+        let gear1 = Gear::new((0, 3));
+        let gear2 = Gear::new((0, 23));
+        let gear3 = Gear::new((1, 6));
+        let gear4 = Gear::new((1, 11));
+        let gear5 = Gear::new((1, 32));
+        let gear6 = Gear::new((2, 15));
+        let gear7 = Gear::new((2, 24));
+
+        assert_eq!(Some(762 * 34), gear1.gear_ratio(&mapa));
+        assert_eq!(Some(754 * 12), gear2.gear_ratio(&mapa));
+        assert_eq!(Some(762 * 59), gear3.gear_ratio(&mapa));
+        assert_eq!(Some(57 * 24), gear4.gear_ratio(&mapa));
+        assert_eq!(Some(647 * 873), gear5.gear_ratio(&mapa));
+        assert_eq!(Some(58 * 123), gear6.gear_ratio(&mapa));
+        assert_eq!(Some(23 * 45), gear7.gear_ratio(&mapa));
+    }
 }
