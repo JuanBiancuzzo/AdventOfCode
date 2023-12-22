@@ -1,6 +1,6 @@
-use crate::ejercicio::Ejercicio;
+use super::day::Day;
 
-pub const ARCHIVO_DIA_2: &str = "src/day2/file";
+pub const ARCHIVO_DIA_2: &str = "src/days/day2/file";
 pub const CANT_ROJO: u32 = 12;
 pub const CANT_VERDE: u32 = 13;
 pub const CANT_AZUL: u32 = 14;
@@ -12,7 +12,7 @@ pub struct Day2 {
     max_azul: u32,
 }
 
-impl Ejercicio for Day2 {
+impl Day for Day2 {
     fn resultado(&self) -> (u32, u32) {
         (
             self.calcular_linea(&self.file, Self::filtrar_juego_valido),

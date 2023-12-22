@@ -1,17 +1,17 @@
-use crate::ejercicio::Ejercicio;
-use super::{
-    elemento::Elemento,
-    gear::Gear,
-};
+mod elemento;
+mod gear;
 
+use super::day::Day;
+use elemento::Elemento;
+use gear::Gear;
 
-pub const ARCHIVO_DIA_3: &str = "src/day3/file";
+pub const ARCHIVO_DIA_3: &str = "src/days/day3/file";
 
 pub struct Day3<const N: usize, const M: usize> {
     file: String,
 }
 
-impl<const N: usize, const M: usize> Ejercicio for Day3<N, M> {
+impl<const N: usize, const M: usize> Day for Day3<N, M> {
     fn resultado(&self) -> (u32, u32) {
         let mapa = Self::crear_mapa(&self.file);
         (

@@ -1,13 +1,15 @@
-use super::vector_ordenado::InsersionOrdenada;
-use crate::ejercicio::Ejercicio;
+mod vector_ordenado;
 
-pub const ARCHIVO_DIA_4: &str = "src/day4/file";
+use vector_ordenado::InsersionOrdenada;
+use super::day::Day;
+
+pub const ARCHIVO_DIA_4: &str = "src/days/day4/file";
 
 pub struct Day4 {
     file: String,
 }
 
-impl Ejercicio for Day4 {
+impl Day for Day4 {
     fn resultado(&self) -> (u32, u32) {
         (
             Self::calcular_linea(&self.file),

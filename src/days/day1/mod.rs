@@ -1,12 +1,12 @@
-use crate::ejercicio::Ejercicio;
+use super::day::Day;
 
-pub const ARCHIVO_DIA_1: &str = "src/day1/file";
+pub const ARCHIVO_DIA_1: &str = "src/days/day1/file";
 
 pub struct Day1 {
     file: String,
 }
 
-impl Ejercicio for Day1 {
+impl Day for Day1 {
     fn resultado(&self) -> (u32, u32) {
         (
             self.calcular_codigo(&self.file, Self::calcular_linea_digitos),

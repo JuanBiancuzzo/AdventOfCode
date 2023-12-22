@@ -1,4 +1,4 @@
-use super::{elemento::Elemento, ejercicio::Day3};
+use super::{elemento::Elemento, Day3};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Gear {
