@@ -8,6 +8,7 @@ use days::{
     day2::{Day2, ARCHIVO_DIA_2, CANT_ROJO, CANT_VERDE, CANT_AZUL},
     day3::{Day3, ARCHIVO_DIA_3},
     day4::{Day4, ARCHIVO_DIA_4},
+    day5::{Day5, ARCHIVO_DIA_5},
 };
 
 pub fn get_file_content(file_name: &str) -> String {
@@ -25,6 +26,7 @@ fn main() {
         )),
         Box::new(Day3::<140, 140>::new(get_file_content(ARCHIVO_DIA_3))),
         Box::new(Day4::new(get_file_content(ARCHIVO_DIA_4))),
+        Box::new(Day5::new(get_file_content(ARCHIVO_DIA_5))),
     ];
 
     for (idx, ejercicio) in ejercicios.iter().enumerate() {
