@@ -14,7 +14,7 @@ use days::{
 pub fn get_file_content(file_name: &str) -> String {
     read_to_string(file_name).expect("Error al leer el archivo")
 }
-// 206777808 tiene que ser más chico
+
 fn main() {
     let ejercicios: Vec<Box<dyn Day>> = vec![
         Box::new(Day1::new(get_file_content(ARCHIVO_DIA_1))),
