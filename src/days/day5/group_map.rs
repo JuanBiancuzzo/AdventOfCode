@@ -1,7 +1,9 @@
 use std::convert::From;
 
 use super::map::Map;
+use super::source_range::SourceRange;
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct GroupMap {
     maps: Vec<Map>,
 }
@@ -11,19 +13,22 @@ impl GroupMap {
         Self { maps }
     }
 
-    pub fn transform(&self, sources: &mut Vec<u32>) {
-        for source in sources.iter_mut() {
-            *source = self.transform_source(*source);
-        }
-    }
+    pub fn transform(&self, sources: &Vec<SourceRange>) -> Vec<SourceRange> {
+        let mut destinations: Vec<SourceRange> = vec![];
+        let mut inprocess: Vec<SourceRange> = sources.clone();
 
-    fn transform_source(&self, source: u32) -> u32 {
         for map in self.maps.iter() {
-            if let Some(destination) = map.transform(source) {
-                return destination;
-            }
+            let (
+                mut new_inprocess, 
+                mut new_destinations
+            ) = map.transform(&inprocess);
+            inprocess.clear();
+            inprocess.append(&mut new_inprocess);
+            destinations.append(&mut new_destinations);
         }
-        source
+
+        destinations.append(&mut inprocess);
+        destinations
     }
 }
 
