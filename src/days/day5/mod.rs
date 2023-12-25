@@ -13,7 +13,7 @@ pub struct Day5 {
 }
 
 impl Day for Day5 {
-    fn resultado(&self) -> (u32, u32) {
+    fn resultado(&self) -> (u64, u64) {
         let (seeds, group_maps) = match self.file.split_once("\n") {
             Some((seeds, group_maps)) => (
                 seeds, 
@@ -34,10 +34,10 @@ impl Day5 {
         Day5 { file }
     }
 
-    fn get_seed_values(seeds: &str) -> Vec<u32> {
+    fn get_seed_values(seeds: &str) -> Vec<u64> {
         seeds.split(" ")
-            .filter_map(|seed| seed.parse::<u32>().ok())
-            .collect::<Vec<u32>>()
+            .filter_map(|seed| seed.parse::<u64>().ok())
+            .collect::<Vec<u64>>()
     }
 
     fn get_seeds(seeds_text: &str) -> Vec<SourceRange> {
@@ -80,7 +80,7 @@ impl Day5 {
     }
 
 
-    fn get_minimum_seed(seeds: &Vec<SourceRange>, group_maps: &Vec<GroupMap>) -> u32 {
+    fn get_minimum_seed(seeds: &Vec<SourceRange>, group_maps: &Vec<GroupMap>) -> u64 {
         let mut destinations: Vec<SourceRange> = seeds.clone();
         group_maps.iter()
             .for_each(|group_map| {

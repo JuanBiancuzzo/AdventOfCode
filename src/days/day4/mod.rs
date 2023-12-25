@@ -10,7 +10,7 @@ pub struct Day4 {
 }
 
 impl Day for Day4 {
-    fn resultado(&self) -> (u32, u32) {
+    fn resultado(&self) -> (u64, u64) {
         (
             Self::calcular_linea(&self.file),
             Self::calcular_cantidad_scratchcards(&self.file),
@@ -23,7 +23,7 @@ impl Day4 {
         Day4 { file }
     }
 
-    fn calcular_linea(lineas: &str) -> u32
+    fn calcular_linea(lineas: &str) -> u64
     {
         lineas.lines()
             .filter_map(|linea| Self::cantidad_matcheos(linea))
@@ -31,14 +31,14 @@ impl Day4 {
                 match puntos {
                     0 => 0,
                     1 => 1,
-                    n => 2u32.pow(n - 1),
+                    n => 2u64.pow((n - 1) as u32),
                 }
             })
             .sum()
     }
 
-    fn calcular_cantidad_scratchcards(lineas: &str) -> u32 {
-        let mut scratchcards: Vec<u32> = vec![1; lineas.lines().map(|_| 1).sum::<usize>()];
+    fn calcular_cantidad_scratchcards(lineas: &str) -> u64 {
+        let mut scratchcards: Vec<u64> = vec![1; lineas.lines().map(|_| 1).sum::<usize>()];
 
         lineas.lines().enumerate().for_each(|(index, linea)| {
             Self::modificar_cantidad_scratchards(index, linea, &mut scratchcards)
@@ -47,7 +47,7 @@ impl Day4 {
         scratchcards.iter().sum()
     }
 
-    fn modificar_cantidad_scratchards(index: usize, linea: &str, scratchcards: &mut Vec<u32>) {
+    fn modificar_cantidad_scratchards(index: usize, linea: &str, scratchcards: &mut Vec<u64>) {
         let puntos = Self::cantidad_matcheos(linea).unwrap_or(0);
         let cantidad_actual = scratchcards[index];
         for i in 0..puntos {
@@ -56,7 +56,7 @@ impl Day4 {
         }
     }
 
-    fn cantidad_matcheos(linea: &str) -> Option<u32> {
+    fn cantidad_matcheos(linea: &str) -> Option<u64> {
         let (_, linea) = linea.split_once(":")?;
         let (winning_numbers, numbers) = linea.split_once("|")?;
         
@@ -69,7 +69,7 @@ impl Day4 {
         let mut next_winning_number = winning_numbers.next();
         let mut next_number = numbers.next();
         
-        let mut puntos: u32 = 0;
+        let mut puntos: u64 = 0;
 
         while let (Some(winning_number), Some(number)) = (next_winning_number, next_number) {
             if winning_number == number {
@@ -86,11 +86,11 @@ impl Day4 {
         Some(puntos)
     }
 
-    fn numeros_ordenados(numeros: &str) -> Vec<u32> {
-        let mut ordenados: Vec<u32> = vec![];
+    fn numeros_ordenados(numeros: &str) -> Vec<u64> {
+        let mut ordenados: Vec<u64> = vec![];
 
         numeros.split_whitespace()
-            .filter_map(|numero| numero.parse::<u32>().ok())
+            .filter_map(|numero| numero.parse::<u64>().ok())
             .for_each(|numero| ordenados.insertar_ordenadamente(numero));
         
         ordenados

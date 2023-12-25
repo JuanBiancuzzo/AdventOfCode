@@ -9,12 +9,13 @@ use days::{
     day3::{Day3, ARCHIVO_DIA_3},
     day4::{Day4, ARCHIVO_DIA_4},
     day5::{Day5, ARCHIVO_DIA_5},
+    day6::{Day6, ARCHIVO_DIA_6},
 };
 
 pub fn get_file_content(file_name: &str) -> String {
     read_to_string(file_name).expect("Error al leer el archivo")
 }
-
+// 40651267
 fn main() {
     let ejercicios: Vec<Box<dyn Day>> = vec![
         Box::new(Day1::new(get_file_content(ARCHIVO_DIA_1))),
@@ -27,6 +28,7 @@ fn main() {
         Box::new(Day3::<140, 140>::new(get_file_content(ARCHIVO_DIA_3))),
         Box::new(Day4::new(get_file_content(ARCHIVO_DIA_4))),
         Box::new(Day5::new(get_file_content(ARCHIVO_DIA_5))),
+        Box::new(Day6::new(get_file_content(ARCHIVO_DIA_6))),
     ];
 
     for (idx, ejercicio) in ejercicios.iter().enumerate() {

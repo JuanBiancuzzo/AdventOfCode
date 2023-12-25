@@ -32,10 +32,10 @@ mod pruebas_vector_ordenado {
 
     #[test]
     fn vector_con_5_elementos() {
-        let esperado: Vec<u32> = vec![17, 41, 48, 83, 86];
+        let esperado: Vec<u64> = vec![17, 41, 48, 83, 86];
         
-        let vector: Vec<u32> = vec![41, 48, 83, 86, 17];
-        let mut ordenados: Vec<u32> = vec![];
+        let vector: Vec<u64> = vec![41, 48, 83, 86, 17];
+        let mut ordenados: Vec<u64> = vec![];
         
         for numero in vector {
             ordenados.insertar_ordenadamente(numero);
@@ -46,10 +46,10 @@ mod pruebas_vector_ordenado {
 
     #[test]
     fn vector_con_8_elementos() {
-        let esperado: Vec<u32> = vec![6, 9, 17, 31, 48, 53, 83, 86];
+        let esperado: Vec<u64> = vec![6, 9, 17, 31, 48, 53, 83, 86];
         
-        let vector: Vec<u32> = vec![83, 86, 6, 31, 17, 9, 48, 53];
-        let mut ordenados: Vec<u32> = vec![];
+        let vector: Vec<u64> = vec![83, 86, 6, 31, 17, 9, 48, 53];
+        let mut ordenados: Vec<u64> = vec![];
 
         for numero in vector {
             ordenados.insertar_ordenadamente(numero);
@@ -60,10 +60,10 @@ mod pruebas_vector_ordenado {
 
     #[test]
     fn vector_con_elementos_repetidos() {
-        let esperado: Vec<u32> = vec![6, 6, 9, 17, 48, 53, 83, 86];
+        let esperado: Vec<u64> = vec![6, 6, 9, 17, 48, 53, 83, 86];
         
-        let vector: Vec<u32> = vec![83, 86, 6, 17, 9, 48, 6, 53];
-        let mut ordenados: Vec<u32> = vec![];
+        let vector: Vec<u64> = vec![83, 86, 6, 17, 9, 48, 6, 53];
+        let mut ordenados: Vec<u64> = vec![];
 
         for numero in vector {
             ordenados.insertar_ordenadamente(numero);
@@ -74,10 +74,10 @@ mod pruebas_vector_ordenado {
 
     #[test]
     fn vector_ya_ordenado() {
-        let esperado: Vec<u32> = vec![6, 9, 17, 31, 48, 53, 83, 86];
+        let esperado: Vec<u64> = vec![6, 9, 17, 31, 48, 53, 83, 86];
         
-        let vector: Vec<u32> = vec![6, 9, 17, 31, 48, 53, 83, 86];
-        let mut ordenados: Vec<u32> = vec![];
+        let vector: Vec<u64> = vec![6, 9, 17, 31, 48, 53, 83, 86];
+        let mut ordenados: Vec<u64> = vec![];
 
         for numero in vector {
             ordenados.insertar_ordenadamente(numero);

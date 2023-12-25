@@ -12,7 +12,7 @@ pub struct Day3<const N: usize, const M: usize> {
 }
 
 impl<const N: usize, const M: usize> Day for Day3<N, M> {
-    fn resultado(&self) -> (u32, u32) {
+    fn resultado(&self) -> (u64, u64) {
         let mapa = Self::crear_mapa(&self.file);
         (
             Self::calcular_valores(&mapa), 
@@ -40,16 +40,16 @@ impl<const N: usize, const M: usize> Day3<N, M> {
         mapa
     }
 
-    fn calcular_valores(mapa: &[[char; N]; M]) -> u32 {
+    fn calcular_valores(mapa: &[[char; N]; M]) -> u64 {
         Self::obtener_elementos(mapa).iter()
             .filter_map(|elemento| elemento.elemento_valido::<N, M>(mapa))
-            .sum::<u32>()
+            .sum::<u64>()
     }
 
-    fn calcular_gear_ratios(mapa: &[[char; N]; M]) -> u32 {
+    fn calcular_gear_ratios(mapa: &[[char; N]; M]) -> u64 {
         Self::obtener_gears(mapa).iter()
             .filter_map(|gear| gear.gear_ratio(mapa))
-            .sum::<u32>()
+            .sum::<u64>()
     }
 
     pub fn obtener_elementos(mapa: &[[char; N]; M]) -> Vec<Elemento> {
@@ -61,7 +61,7 @@ impl<const N: usize, const M: usize> Day3<N, M> {
 
             while let Some(caracter) = linea_iterable.next() {
                 let mut valor = match caracter.to_digit(10) {
-                    Some(valor) => valor,
+                    Some(valor) => valor as u64,
                     None => {
                         j += 1;
                         continue
@@ -71,7 +71,7 @@ impl<const N: usize, const M: usize> Day3<N, M> {
                 while let Some(caracter) = linea_iterable.next() {
                     j += 1;
                     match caracter.to_digit(10) {
-                        Some(siguiente_valor) => valor = 10 * valor + siguiente_valor,
+                        Some(siguiente_valor) => valor = 10 * valor + siguiente_valor as u64,
                         None => break,
                     };
                 }
@@ -89,7 +89,7 @@ impl<const N: usize, const M: usize> Day3<N, M> {
         for (i, linea) in mapa.iter().enumerate() {
             for (j, caracter) in linea.iter().enumerate() {
                 if *caracter == '*' {
-                    gears.push(Gear::new((i as u32, j as u32)));
+                    gears.push(Gear::new((i as u64, j as u64)));
                 }
             }
         }

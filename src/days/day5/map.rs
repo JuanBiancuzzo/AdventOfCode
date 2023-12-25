@@ -7,13 +7,13 @@ type Destination = Vec<SourceRange>;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Map {
-    destination_start: u32,
-    source_start: u32,
-    range: u32,
+    destination_start: u64,
+    source_start: u64,
+    range: u64,
 }
 
 impl Map {
-    pub fn new(destination_start: u32, source_start: u32, range: u32) -> Self {
+    pub fn new(destination_start: u64, source_start: u64, range: u64) -> Self {
         Self {
             destination_start,
             source_start,
@@ -93,8 +93,8 @@ impl TryFrom<&str> for Map {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let numeros = value.split(" ")
-            .filter_map(|numero| numero.parse::<u32>().ok())
-            .collect::<Vec<u32>>();
+            .filter_map(|numero| numero.parse::<u64>().ok())
+            .collect::<Vec<u64>>();
 
         let destination_start = match numeros.get(0) {
             Some(numero) => *numero,

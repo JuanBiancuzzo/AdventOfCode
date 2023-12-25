@@ -7,7 +7,7 @@ pub struct Day1 {
 }
 
 impl Day for Day1 {
-    fn resultado(&self) -> (u32, u32) {
+    fn resultado(&self) -> (u64, u64) {
         (
             self.calcular_codigo(&self.file, Self::calcular_linea_digitos),
             self.calcular_codigo(&self.file, Self::calcular_linea_completo)
@@ -21,9 +21,12 @@ impl Day1 {
         Self { file }
     }
 
-    fn get_numero(linea: &str) -> Option<u32> {
+    fn get_numero(linea: &str) -> Option<u64> {
         match linea.chars().next() {
-            Some(c) if c.is_digit(10) => return c.to_digit(10),
+            Some(c) if c.is_digit(10) => return match c.to_digit(10) {
+                    Some(digit) => Some(digit as u64),
+                    None => None,
+                },
             _ => {}
         }
 
@@ -61,10 +64,13 @@ impl Day1 {
         }
     }
 
-    fn calcular_linea_digitos(linea: &str) -> Option<u32> {
-        let numeros: Vec<u32> = linea.chars()
-            .filter_map(|c| c.to_digit(10))
-            .collect();
+    fn calcular_linea_digitos(linea: &str) -> Option<u64> {
+        let numeros: Vec<u64> = linea.chars()
+            .filter_map(|c| return match c.to_digit(10) {
+                Some(digit) => Some(digit as u64),
+                None => None,
+            },)
+            .collect::<Vec<u64>>();
 
         let primero = numeros.first();
         let ultimo = numeros.last();
@@ -75,8 +81,8 @@ impl Day1 {
         }
     }
 
-    fn calcular_linea_completo(linea: &str) -> Option<u32> {
-        let mut numeros: Vec<u32> = Vec::new();
+    fn calcular_linea_completo(linea: &str) -> Option<u64> {
+        let mut numeros: Vec<u64> = Vec::new();
         let linea = linea.to_string();
         
         for i in 0..linea.len() {
@@ -95,8 +101,8 @@ impl Day1 {
         }
     }
 
-    fn calcular_codigo<F>(&self, file: &String, calculo_de_linea: F) -> u32 
-        where F: Fn(&str) -> Option<u32>
+    fn calcular_codigo<F>(&self, file: &String, calculo_de_linea: F) -> u64 
+        where F: Fn(&str) -> Option<u64>
     {
         file.lines()
             .map(|linea| {

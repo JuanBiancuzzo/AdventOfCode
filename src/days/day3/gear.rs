@@ -2,15 +2,15 @@ use super::{elemento::Elemento, Day3};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Gear {
-    pub posicion: (u32, u32),
+    pub posicion: (u64, u64),
 }
 
 impl Gear {
-    pub fn new(posicion: (u32, u32)) -> Self {
+    pub fn new(posicion: (u64, u64)) -> Self {
         Self { posicion }
     }
 
-    pub fn gear_ratio<const N: usize, const M: usize>(&self, mapa: &[[char; N]; M]) -> Option<u32> {
+    pub fn gear_ratio<const N: usize, const M: usize>(&self, mapa: &[[char; N]; M]) -> Option<u64> {
         let elementos: Vec<Elemento> = self.obtener_elemento_rodeando(mapa)?;
 
         let elementos_adyacentes = elementos.iter()
@@ -22,7 +22,7 @@ impl Gear {
         if elementos_adyacentes.len() == 2 {
             return Some(elementos_adyacentes.iter()
                 .map(|elemento| elemento.valor)
-                .product::<u32>());
+                .product::<u64>());
         }
 
         None

@@ -1,19 +1,19 @@
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Elemento {
-    pub valor: u32,
+    pub valor: u64,
     pub inicio: (usize, usize),
 }
 
 impl Elemento {
-    pub fn new(valor: u32, inicio: (usize, usize)) -> Self {
+    pub fn new(valor: u64, inicio: (usize, usize)) -> Self {
         Self { valor, inicio }
     }
 
-    fn longitud(&self) -> u32 {
-        self.valor.to_string().len() as u32
+    fn longitud(&self) -> u64 {
+        self.valor.to_string().len() as u64
     }
 
-    pub fn elemento_valido<const N: usize, const M: usize>(&self, mapa: &[[char; N]; M]) -> Option<u32> {
+    pub fn elemento_valido<const N: usize, const M: usize>(&self, mapa: &[[char; N]; M]) -> Option<u64> {
         if self.posiciones_adyacentes().iter()
             .filter_map(|(i, j)| {
                 let i = usize::try_from(*i).ok()?;

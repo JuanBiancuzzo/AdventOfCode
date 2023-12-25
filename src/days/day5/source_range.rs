@@ -2,19 +2,19 @@ use std::cmp::Ordering;
 
 #[derive(Debug, Clone, Copy, Eq)]
 pub struct SourceRange {
-    pub start: u32,
-    pub range: u32,
+    pub start: u64,
+    pub range: u64,
 }
 
 impl SourceRange {
-    pub fn new(start: u32, range: u32) -> Option<Self> {
+    pub fn new(start: u64, range: u64) -> Option<Self> {
         if range == 0 {
             return None;
         }
         Some(Self { start, range })
     }
 
-    pub fn get_min(&self) -> u32 {
+    pub fn get_min(&self) -> u64 {
         self.start
     }
 }

@@ -1,19 +1,19 @@
 use super::day::Day;
 
 pub const ARCHIVO_DIA_2: &str = "src/days/day2/file";
-pub const CANT_ROJO: u32 = 12;
-pub const CANT_VERDE: u32 = 13;
-pub const CANT_AZUL: u32 = 14;
+pub const CANT_ROJO: u64 = 12;
+pub const CANT_VERDE: u64 = 13;
+pub const CANT_AZUL: u64 = 14;
 
 pub struct Day2 {
     file: String,
-    max_rojo: u32,
-    max_verde: u32,
-    max_azul: u32,
+    max_rojo: u64,
+    max_verde: u64,
+    max_azul: u64,
 }
 
 impl Day for Day2 {
-    fn resultado(&self) -> (u32, u32) {
+    fn resultado(&self) -> (u64, u64) {
         (
             self.calcular_linea(&self.file, Self::filtrar_juego_valido),
             self.calcular_linea(&self.file, Self::filtrar_juego_minimo),
@@ -22,7 +22,7 @@ impl Day for Day2 {
 }
 
 impl Day2 {
-    pub fn new(file: String, max_rojo: u32, max_verde: u32, max_azul: u32) -> Self {
+    pub fn new(file: String, max_rojo: u64, max_verde: u64, max_azul: u64) -> Self {
         Self { 
             file,
             max_rojo,
@@ -31,15 +31,15 @@ impl Day2 {
         }
     }
 
-    fn calcular_linea<F>(&self, lineas: &str, filtro: F) -> u32
-        where F: Fn(&Self, &str) -> Option<u32>
+    fn calcular_linea<F>(&self, lineas: &str, filtro: F) -> u64
+        where F: Fn(&Self, &str) -> Option<u64>
     {
         lineas.lines()
             .filter_map(|linea| filtro(self, linea))
             .sum()
     }   
 
-    fn filtrar_juego_valido(&self, linea: &str) -> Option<u32> {
+    fn filtrar_juego_valido(&self, linea: &str) -> Option<u64> {
         let (juego, linea) = linea.split_once(":")?;
 
         match linea.split(";")
@@ -49,7 +49,7 @@ impl Day2 {
         }
     }
 
-    fn filtrar_juego_minimo(&self, linea: &str) -> Option<u32> {
+    fn filtrar_juego_minimo(&self, linea: &str) -> Option<u64> {
         let (_, linea) = linea.split_once(":")?;
 
         let (rojo, verde, azul) = linea.split(";")
@@ -86,9 +86,9 @@ impl Day2 {
         false
     }
 
-    fn get_cantidad_por_color(par_valor_color: &str) -> Option<(u32, u32, u32)> {
+    fn get_cantidad_por_color(par_valor_color: &str) -> Option<(u64, u64, u64)> {
         let (valor, color) = par_valor_color.trim().split_once(" ")?;
-        let valor = valor.parse::<u32>().ok()?;
+        let valor = valor.parse::<u64>().ok()?;
         
         if color.contains("red") { 
             return Some((valor, 0, 0));
@@ -101,15 +101,18 @@ impl Day2 {
         None
     }
 
-    fn get_numero_juego(juego: &str) -> u32 {
-        let numeros: Vec<u32> = juego.chars()
-            .filter_map(|c| c.to_digit(10))
+    fn get_numero_juego(juego: &str) -> u64 {
+        let numeros: Vec<u64> = juego.chars()
+            .filter_map(|c| return match c.to_digit(10) {
+                Some(digit) => Some(digit as u64),
+                None => None,
+            })
             .collect();
 
         return numeros.iter().enumerate().map(|(idx, numero)| {
             let potencia = (numeros.len() - idx - 1) as u32;
-            numero * 10u32.pow(potencia)
-        }).sum::<u32>();
+            numero * 10u64.pow(potencia)
+        }).sum::<u64>();
     }
 }
 
@@ -152,9 +155,9 @@ mod pruebas_dia_2 {
         assert_eq!(codigo.1, 48 + 12 + 1560 + 630 + 36)
     }
 
-    pub const CANT_ROJO: u32 = 12;
-    pub const CANT_VERDE: u32 = 13;
-    pub const CANT_AZUL: u32 = 14;
+    pub const CANT_ROJO: u64 = 12;
+    pub const CANT_VERDE: u64 = 13;
+    pub const CANT_AZUL: u64 = 14;
     #[test]
     fn varias_lineas_intercaladas() {
         let file = "Game 1: 4 red, 3 blue; 6 blue, 16 green; 9 blue, 13 green, 1 red; 10 green, 4 red, 6 blue\n
