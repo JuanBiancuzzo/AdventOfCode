@@ -13,19 +13,28 @@ pub struct Day5 {
 }
 
 impl Day for Day5 {
-    fn resultado(&self) -> (u64, u64) {
+    fn resultado_parte_1(&self) -> u64 {
         let (seeds, group_maps) = match self.file.split_once("\n") {
             Some((seeds, group_maps)) => (
                 seeds, 
                 Self::get_group_maps(group_maps)
             ),
-            None => return (0, 0),
+            None => return 0,
         };
 
-        (
-            Self::get_minimum_seed(&mut Self::get_seeds(seeds), &group_maps),
-            Self::get_minimum_seed(&mut Self::get_seeds_ranges(seeds), &group_maps),
-        )
+        Self::get_minimum_seed(&mut Self::get_seeds(seeds), &group_maps)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        let (seeds, group_maps) = match self.file.split_once("\n") {
+            Some((seeds, group_maps)) => (
+                seeds, 
+                Self::get_group_maps(group_maps)
+            ),
+            None => return 0,
+        };
+
+        Self::get_minimum_seed(&mut Self::get_seeds_ranges(seeds), &group_maps)
     }
 }
 
@@ -192,9 +201,10 @@ mod pruebas_dia_5 {
         60 56 37
         56 93 4";
 
-        let resultado = Day5::new(file.to_string()).resultado();
+        let resultado_parte_1 = Day5::new(file.to_string()).resultado_parte_1();
+        let resultado_parte_2 = Day5::new(file.to_string()).resultado_parte_2();
 
-        assert_eq!(resultado.0, 35);
-        assert_eq!(resultado.1, 46);
+        assert_eq!(resultado_parte_1, 35);
+        assert_eq!(resultado_parte_2, 46);
     }
 }

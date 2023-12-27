@@ -13,11 +13,12 @@ pub struct Day2 {
 }
 
 impl Day for Day2 {
-    fn resultado(&self) -> (u64, u64) {
-        (
-            self.calcular_linea(&self.file, Self::filtrar_juego_valido),
-            self.calcular_linea(&self.file, Self::filtrar_juego_minimo),
-        )
+    fn resultado_parte_1(&self) -> u64 {
+        self.calcular_linea(&self.file, Self::filtrar_juego_valido)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        self.calcular_linea(&self.file, Self::filtrar_juego_minimo)
     }
 }
 
@@ -128,18 +129,18 @@ mod pruebas_dia_2 {
     fn linea_valida() {
         let file = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green";
         let ejercicio = day2_default(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 1);
-        assert_eq!(codigo.1, 4 * 2 * 6);
+        
+        assert_eq!(ejercicio.resultado_parte_1(), 1);
+        assert_eq!(ejercicio.resultado_parte_2(), 4 * 2 * 6);
     }
 
     #[test]
     fn linea_invalida() {
         let file = "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red";
         let ejercicio = day2_default(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 0);
-        assert_eq!(codigo.1, 20 * 13 * 6);
+        
+        assert_eq!(ejercicio.resultado_parte_1(), 0);
+        assert_eq!(ejercicio.resultado_parte_2(), 20 * 13 * 6);
     }
 
     #[test]
@@ -150,9 +151,9 @@ mod pruebas_dia_2 {
                           Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red\n
                           Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green\n";
         let ejercicio = day2_default(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 8);
-        assert_eq!(codigo.1, 48 + 12 + 1560 + 630 + 36)
+        
+        assert_eq!(ejercicio.resultado_parte_1(), 8);
+        assert_eq!(ejercicio.resultado_parte_2(), 48 + 12 + 1560 + 630 + 36)
     }
 
     pub const CANT_ROJO: u64 = 12;
@@ -182,7 +183,7 @@ mod pruebas_dia_2 {
         Game 20: 11 green, 5 red, 7 blue; 7 green, 12 red, 11 blue; 13 green, 3 blue, 5 red; 3 red, 3 blue, 1 green";
 
         let ejercicio = day2_default(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 92);
+        
+        assert_eq!(ejercicio.resultado_parte_1(), 92);
     }
 }

@@ -10,11 +10,12 @@ pub struct Day4 {
 }
 
 impl Day for Day4 {
-    fn resultado(&self) -> (u64, u64) {
-        (
-            Self::calcular_linea(&self.file),
-            Self::calcular_cantidad_scratchcards(&self.file),
-        )
+    fn resultado_parte_1(&self) -> u64 {
+        Self::calcular_linea(&self.file)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        Self::calcular_cantidad_scratchcards(&self.file)
     }
 }
 
@@ -105,18 +106,18 @@ mod pruebas_dia_4 {
     fn linea_con_numeros_ganadores() {
         let linea = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53";
 
-        let resultado = Day4::new(linea.to_string()).resultado();
+        let resultado = Day4::new(linea.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 8);
+        assert_eq!(resultado, 8);
     }
 
     #[test]
     fn linea_sin_numeros_ganadores() {
         let linea = "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36";
 
-        let resultado = Day4::new(linea.to_string()).resultado();
+        let resultado = Day4::new(linea.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 0);
+        assert_eq!(resultado, 0);
     }
 
     #[test]
@@ -128,9 +129,9 @@ mod pruebas_dia_4 {
         Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
         Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
 
-        let resultado = Day4::new(lineas.to_string()).resultado();
+        let resultado = Day4::new(lineas.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 13);
+        assert_eq!(resultado, 13);
     }
 
     #[test]
@@ -142,8 +143,8 @@ mod pruebas_dia_4 {
         Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
         Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
 
-        let resultado = Day4::new(lineas.to_string()).resultado();
+        let resultado = Day4::new(lineas.to_string()).resultado_parte_2();
 
-        assert_eq!(resultado.1, 30);
+        assert_eq!(resultado, 30);
     }
 }

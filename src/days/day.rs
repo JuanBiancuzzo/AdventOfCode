@@ -1,3 +1,5 @@
 pub trait Day {
-    fn resultado(&self) -> (u64, u64);
+    fn resultado_parte_1(&self) -> u64;
+
+    fn resultado_parte_2(&self) -> u64;
 }

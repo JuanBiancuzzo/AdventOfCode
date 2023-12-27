@@ -10,11 +10,12 @@ pub struct Day6 {
 }
 
 impl Day for Day6 {
-    fn resultado(&self) -> (u64, u64) {
-        (
-            Self::get_possibilities_holding_time(Self::get_races(&self.file).unwrap()), 
-            Self::get_possibilities_holding_time(vec![Self::get_race(&self.file).unwrap()]), 
-        )
+    fn resultado_parte_1(&self) -> u64 {
+        Self::get_possibilities_holding_time(Self::get_races(&self.file).unwrap())
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        Self::get_possibilities_holding_time(Self::get_races(&self.file).unwrap())
     }
 }
 
@@ -95,9 +96,10 @@ mod pruebas_dia_6 {
         let file = "Time:      7  15   30
             Distance:  9  40  200";
         
-        let resultado = Day6::new(file.to_string()).resultado();
+        let resultado_parte_1 = Day6::new(file.to_string()).resultado_parte_1();
+        let resultado_parte_2 = Day6::new(file.to_string()).resultado_parte_2();
         
-        assert_eq!(resultado.0, 288);
-        assert_eq!(resultado.1, 71503);
+        assert_eq!(resultado_parte_1, 288);
+        assert_eq!(resultado_parte_2, 71503);
     }
 }

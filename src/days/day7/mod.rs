@@ -17,13 +17,14 @@ pub struct Day7 {
 }
 
 impl Day for Day7 {
-    fn resultado(&self) -> (u64, u64) {
+    fn resultado_parte_1(&self) -> u64 {
         let mut hand_bids = Self::parse_hands::<Hand>(&self.file);
+        Self::total_winning(&mut hand_bids)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
         let mut wild_hand_bids = Self::parse_hands::<WildHand>(&self.file);
-        (
-            Self::total_winning(&mut hand_bids), 
-            Self::total_winning(&mut wild_hand_bids)
-        )
+        Self::total_winning(&mut wild_hand_bids)
     }
 }
 
@@ -62,9 +63,10 @@ mod pruebas_dia_7 {
     fn ejemplo() {
         let file = "32T3K 765\nT55J5 684\nKK677 28\nKTJJT 220\nQQQJA 483";
 
-        let resultado = Day7::new(file.to_string()).resultado();
+        let resultado_parte_1 = Day7::new(file.to_string()).resultado_parte_1();
+        let resultado_parte_2 = Day7::new(file.to_string()).resultado_parte_2();
 
-        assert_eq!(resultado.0, 6440);
-        assert_eq!(resultado.1, 5905);
+        assert_eq!(resultado_parte_1, 6440);
+        assert_eq!(resultado_parte_2, 5905);
     }
 }

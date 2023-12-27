@@ -12,12 +12,14 @@ pub struct Day3<const N: usize, const M: usize> {
 }
 
 impl<const N: usize, const M: usize> Day for Day3<N, M> {
-    fn resultado(&self) -> (u64, u64) {
+    fn resultado_parte_1(&self) -> u64 {
         let mapa = Self::crear_mapa(&self.file);
-        (
-            Self::calcular_valores(&mapa), 
-            Self::calcular_gear_ratios(&mapa)
-        )
+        Self::calcular_valores(&mapa)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        let mapa = Self::crear_mapa(&self.file);
+        Self::calcular_gear_ratios(&mapa)
     }
 }
 

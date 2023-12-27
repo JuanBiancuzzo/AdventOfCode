@@ -7,11 +7,12 @@ pub struct Day1 {
 }
 
 impl Day for Day1 {
-    fn resultado(&self) -> (u64, u64) {
-        (
-            self.calcular_codigo(&self.file, Self::calcular_linea_digitos),
-            self.calcular_codigo(&self.file, Self::calcular_linea_completo)
-        )
+    fn resultado_parte_1(&self) -> u64 {
+        self.calcular_codigo(&self.file, Self::calcular_linea_digitos)
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        self.calcular_codigo(&self.file, Self::calcular_linea_completo)
     }
 }
 
@@ -124,43 +125,43 @@ mod pruebas_dia_1 {
     fn simple() {
         let file = "123\n456\n789";
         let ejercicio = Day1::new(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 138);
+        let codigo = ejercicio.resultado_parte_1();
+        assert_eq!(codigo, 138);
     }
     
     #[test]
     fn medio() {
         let file = "asfa12dafa3sdfasdf\nasdfa45fasdf6asdf\n7asdfasd89asdf\nasddfasdf7asd5fasdf";
         let ejercicio = Day1::new(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 213);
+        let codigo = ejercicio.resultado_parte_1();
+        assert_eq!(codigo, 213);
     }
 
     #[test]
     fn unico_valor() {
         let file = "asfadafa3sdfasdf";
         let ejercicio = Day1::new(file.to_string());
-        let codigo = ejercicio.resultado();
-        assert_eq!(codigo.0, 33);
+        let codigo = ejercicio.resultado_parte_1();
+        assert_eq!(codigo, 33);
     }
 
     #[test]
     fn con_letras() {
         let file = "one\ntwo\nthree\nfour\nfive\nsix\nseven\neight\nnine";
         let ejercicio = Day1::new(file.to_string());
-        let codigo = ejercicio.resultado();
+        let codigo = ejercicio.resultado_parte_2();
 
         let codigo_esperado = (1..10).map(|valor| valor * 11).sum();
-        assert_eq!(codigo.1, codigo_esperado);
+        assert_eq!(codigo, codigo_esperado);
     }
 
     #[test]
     fn completo() {
         let file = "oneasdjfkj1\nkalsjdf2asdfjalsdkjftwoaksjdf\nasdfasd3asdfasdfthreeasdfasd\n4asdfasdffourasdfasdf\nasdfad5fiveasdfasd\nsadfasdf6asdfasdfsix\nasdfadsf7asdfasdfsevenasdfaea\n8fasdfasdfasdfeight\nasdfadsfnineasdfasdfa9asdfad";
         let ejercicio = Day1::new(file.to_string());
-        let codigo = ejercicio.resultado();
+        let codigo = ejercicio.resultado_parte_2();
 
         let codigo_esperado = (1..10).map(|valor| valor * 11).sum();
-        assert_eq!(codigo.1, codigo_esperado);
+        assert_eq!(codigo, codigo_esperado);
     }
 }

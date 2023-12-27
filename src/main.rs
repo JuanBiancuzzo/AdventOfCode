@@ -36,7 +36,10 @@ fn main() {
     ];
 
     for (idx, ejercicio) in ejercicios.iter().enumerate() {
-        let (parte1, parte2) = ejercicio.resultado();
-        println!("Ejercicio {}: \n\tParte 1: {}, \n\tParte 2: {}", idx + 1, parte1, parte2);
+        let parte_1 = ejercicio.resultado_parte_1();
+        println!("Ejercicio {}: \n\tParte 1: {}", idx + 1, parte_1);
+
+        let parte_2 = ejercicio.resultado_parte_2();
+        println!("\tParte 2: {}", parte_2);
     }
 }

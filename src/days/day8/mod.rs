@@ -16,24 +16,29 @@ pub struct Day8 {
 }
 
 impl Day for Day8 {
-    fn resultado(&self) -> (u64, u64) {
+    fn resultado_parte_1(&self) -> u64 {
         let lines = self.file.lines().collect::<Vec<&str>>();
         let mut instructions = InstructionLoop::new(Self::get_instructions(lines[0]));
         let key_value = Self::get_key_value(lines[2..].to_vec());
 
-        (
-            Self::number_of_steps(
-                &vec![Key::new(['A', 'A', 'A'])],
-                |key| key.is_final(),
-                &mut instructions, 
-                &key_value
-            ), 
-            Self::number_of_steps(
-                &Self::initial_values(&key_value), 
-                |key| key.is_final(), 
-                &mut instructions, 
-                &key_value
-            )
+        Self::number_of_steps(
+            &vec![Key::new(['A', 'A', 'A'])],
+            |key| key.is_final(),
+            &mut instructions, 
+            &key_value
+        )
+    }
+
+    fn resultado_parte_2(&self) -> u64 {
+        let lines = self.file.lines().collect::<Vec<&str>>();
+        let mut instructions = InstructionLoop::new(Self::get_instructions(lines[0]));
+        let key_value = Self::get_key_value(lines[2..].to_vec());
+
+        Self::number_of_steps(
+            &Self::initial_values(&key_value), 
+            |key| key.is_final(), 
+            &mut instructions, 
+            &key_value
         )
     }
 }
@@ -131,9 +136,9 @@ mod pruebas_dia_8 {
         GGG = (GGG, GGG)
         ZZZ = (ZZZ, ZZZ)";
 
-        let resultado = Day8::new(file.to_string()).resultado();
+        let resultado = Day8::new(file.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 2);
+        assert_eq!(resultado, 2);
     }
 
     #[test]
@@ -144,9 +149,9 @@ mod pruebas_dia_8 {
         BBB = (AAA, ZZZ)
         ZZZ = (ZZZ, ZZZ)";
 
-        let resultado = Day8::new(file.to_string()).resultado();
+        let resultado = Day8::new(file.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 6);
+        assert_eq!(resultado, 6);
     }
 
     #[test]
@@ -161,16 +166,15 @@ mod pruebas_dia_8 {
         GGG = (EEE, GGG)
         ZZZ = (ZZZ, ZZZ)";
 
-        let resultado = Day8::new(file.to_string()).resultado();
+        let resultado = Day8::new(file.to_string()).resultado_parte_1();
 
-        assert_eq!(resultado.0, 6);
+        assert_eq!(resultado, 6);
     }
 
     #[test]
     fn ejemplo_4() {
         let file = "LR
 
-        AAA = (11B, XXX)
         11A = (11B, XXX)
         11B = (XXX, 11Z)
         11Z = (11B, XXX)
@@ -180,8 +184,8 @@ mod pruebas_dia_8 {
         22Z = (22B, 22B)
         XXX = (XXX, XXX)";
 
-        let resultado = Day8::new(file.to_string()).resultado();
+        let resultado = Day8::new(file.to_string()).resultado_parte_2();
 
-        assert_eq!(resultado.1, 6);
+        assert_eq!(resultado, 6);
     }
 }
