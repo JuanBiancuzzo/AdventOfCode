@@ -15,7 +15,7 @@ impl Day for Day6 {
     }
 
     fn resultado_parte_2(&self) -> u64 {
-        Self::get_possibilities_holding_time(Self::get_races(&self.file).unwrap())
+        Self::get_possibilities_holding_time(vec![Self::get_race(&self.file).unwrap()])
     }
 }
 

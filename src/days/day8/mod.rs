@@ -12,40 +12,41 @@ use instruction_loop::InstructionLoop;
 pub const ARCHIVO_DIA_8: &str = "src/days/day8/file";
 
 pub struct Day8 {
-    file: String,
+    instructions: InstructionLoop,
+    key_value: HashMap<Key, (Key, Key)>,
 }
 
 impl Day for Day8 {
     fn resultado_parte_1(&self) -> u64 {
-        let lines = self.file.lines().collect::<Vec<&str>>();
-        let mut instructions = InstructionLoop::new(Self::get_instructions(lines[0]));
-        let key_value = Self::get_key_value(lines[2..].to_vec());
-
         Self::number_of_steps(
             &vec![Key::new(['A', 'A', 'A'])],
             |key| key.is_final(),
-            &mut instructions, 
-            &key_value
+            self.instructions.clone(), 
+            &self.key_value
         )
     }
 
     fn resultado_parte_2(&self) -> u64 {
-        let lines = self.file.lines().collect::<Vec<&str>>();
-        let mut instructions = InstructionLoop::new(Self::get_instructions(lines[0]));
-        let key_value = Self::get_key_value(lines[2..].to_vec());
+        let steps_per_key = Self::initial_values(&self.key_value).iter()
+            .map(|key| Self::number_of_steps(
+                &vec![*key], 
+                |key| key.is_final(), 
+                self.instructions.clone(), 
+                &self.key_value
+            ))
+            .collect::<Vec<u64>>();
 
-        Self::number_of_steps(
-            &Self::initial_values(&key_value), 
-            |key| key.is_final(), 
-            &mut instructions, 
-            &key_value
-        )
+        Self::minimo_comun_multiplo_vec(&steps_per_key)
     }
 }
 
 impl Day8 {
     pub fn new(file: String) -> Day8 {
-        Day8 { file }
+        let lines = file.lines().collect::<Vec<&str>>();
+        let instructions = InstructionLoop::new(Self::get_instructions(lines[0]));
+        let key_value = Self::get_key_value(lines[2..].to_vec());
+
+        Day8 { instructions, key_value }
     }
 
     fn get_instructions(line: &str) -> Vec<RL> {
@@ -84,7 +85,7 @@ impl Day8 {
     fn number_of_steps<F>(
         initial_keys: &Vec<Key>, 
         ending_condition: F, 
-        instructions: &mut InstructionLoop, 
+        mut instructions: InstructionLoop, 
         key_value: &HashMap<Key, (Key, Key)>
     ) -> u64 
         where F: Fn(Key) -> bool,
@@ -98,13 +99,36 @@ impl Day8 {
                 .collect::<Vec<Key>>();
 
             steps += 1;
-            dbg!(format!("steps: {steps} - next_keys: {next_keys:?}"));
             if next_keys.iter().all(|key| ending_condition(*key)) {
                 break;
             }
         }   
         
         steps
+    }
+
+    fn minimo_comun_multiplo(initial_a: u64, initial_b: u64) -> u64 {
+        let mut a = initial_a;
+        let mut b = initial_b;
+        
+        while a != b {
+            if a < b {
+                a += initial_a;
+            } else {
+                b += initial_b;
+            }
+        }
+
+        a
+    }
+
+    fn minimo_comun_multiplo_vec(vec: &Vec<u64>) -> u64 {
+        let mut vec = vec.clone();
+        vec.sort();
+        vec.dedup();
+
+        vec.iter()
+            .fold(1, |acc, &value| Self::minimo_comun_multiplo(acc, value))
     }
 
     fn get_next_key(instruccion: &RL, key: &Key, key_value: &HashMap<Key, (Key, Key)>) -> Key {
@@ -187,5 +211,20 @@ mod pruebas_dia_8 {
         let resultado = Day8::new(file.to_string()).resultado_parte_2();
 
         assert_eq!(resultado, 6);
+    }
+
+    #[test]
+    fn minimo_comun_multiplo_ejemplo() {
+        let resultado = Day8::minimo_comun_multiplo(2, 3);
+
+        assert_eq!(resultado, 6);
+    }
+
+    #[test]
+    fn minimo_comun_multiplo_vec_ejemplo() {
+        let vec = vec![2, 3, 4, 5, 6];
+        let resultado = Day8::minimo_comun_multiplo_vec(&vec);
+
+        assert_eq!(resultado, 60);
     }
 }

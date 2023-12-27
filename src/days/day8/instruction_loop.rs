@@ -2,6 +2,7 @@ use std::iter::Iterator;
 
 use super::rl::RL;
 
+#[derive(Debug, Clone)]
 pub struct InstructionLoop {
     pub instructions: Vec<RL>,
     current_position: usize,
