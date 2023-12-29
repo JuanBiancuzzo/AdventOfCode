@@ -46,6 +46,6 @@ pub fn get_days() -> Vec<Box<dyn Day>> {
         Box::new(Day7::new(get_file_content(ARCHIVO_DIA_7))),
         Box::new(Day8::new(get_file_content(ARCHIVO_DIA_8))),
         Box::new(Day9::new(get_file_content(ARCHIVO_DIA_9))),
-        Box::new(Day10::new(get_file_content(ARCHIVO_DIA_10))),
+        Box::new(Day10::<140, 140>::new(get_file_content(ARCHIVO_DIA_10))),
     ]
 }
