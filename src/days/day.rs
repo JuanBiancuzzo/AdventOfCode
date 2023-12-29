@@ -1,7 +1,7 @@
 use std::fmt::Display;
 use super::day_count::DayCount;
 
-pub trait Day {
+pub trait Day : Sync + Send {
     fn resultado_parte_1(&self) -> u64;
 
     fn resultado_parte_2(&self) -> u64;

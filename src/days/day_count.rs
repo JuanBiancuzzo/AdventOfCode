@@ -1,5 +1,10 @@
-use std::fmt::Display;
+use std::fmt::{Display, Formatter, Result};
+use std::convert::From;
 
+pub const NUMBER_DAYS: usize = 25;
+
+#[allow(dead_code)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub enum DayCount {
     Day1,
     Day2,
@@ -29,35 +34,40 @@ pub enum DayCount {
 }
 
 impl Display for DayCount {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let day = match self {
-            DayCount::Day1 => "1",
-            DayCount::Day2 => "2",
-            DayCount::Day3 => "3",
-            DayCount::Day4 => "4",
-            DayCount::Day5 => "5",
-            DayCount::Day6 => "6",
-            DayCount::Day7 => "7",
-            DayCount::Day8 => "8",
-            DayCount::Day9 => "9",
-            DayCount::Day10 => "10",
-            DayCount::Day11 => "11",
-            DayCount::Day12 => "12",
-            DayCount::Day13 => "13",
-            DayCount::Day14 => "14",
-            DayCount::Day15 => "15",
-            DayCount::Day16 => "16",
-            DayCount::Day17 => "17",
-            DayCount::Day18 => "18",
-            DayCount::Day19 => "19",
-            DayCount::Day20 => "20",
-            DayCount::Day21 => "21",
-            DayCount::Day22 => "22",
-            DayCount::Day23 => "23",
-            DayCount::Day24 => "24",
-            DayCount::Day25 => "25",
-        };
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        let number_of_day = usize::from(*self);
+        write!(f, "Day {}", number_of_day.to_string())
+    }
+}
 
-        write!(f, "Day {}", day)
+impl From<DayCount> for usize {
+    fn from(value: DayCount) -> Self {
+        match value {
+            DayCount::Day1 => 1,
+            DayCount::Day2 => 2,
+            DayCount::Day3 => 3,
+            DayCount::Day4 => 4,
+            DayCount::Day5 => 5,
+            DayCount::Day6 => 6,
+            DayCount::Day7 => 7,
+            DayCount::Day8 => 8,
+            DayCount::Day9 => 9,
+            DayCount::Day10 => 10,
+            DayCount::Day11 => 11,
+            DayCount::Day12 => 12,
+            DayCount::Day13 => 13,
+            DayCount::Day14 => 14,
+            DayCount::Day15 => 15,
+            DayCount::Day16 => 16,
+            DayCount::Day17 => 17,
+            DayCount::Day18 => 18,
+            DayCount::Day19 => 19,
+            DayCount::Day20 => 20,
+            DayCount::Day21 => 21,
+            DayCount::Day22 => 22,
+            DayCount::Day23 => 23,
+            DayCount::Day24 => 24,
+            DayCount::Day25 => 25,
+        }
     }
 }
