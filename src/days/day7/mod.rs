@@ -6,6 +6,7 @@ mod type_hand;
 mod hand_bid;
 
 use super::day::Day;
+use super::day_count::DayCount;
 use hand_bid::HandBid;
 use hand::Hand;
 use wild_hand::WildHand;
@@ -25,6 +26,10 @@ impl Day for Day7 {
     fn resultado_parte_2(&self) -> u64 {
         let mut wild_hand_bids = Self::parse_hands::<WildHand>(&self.file);
         Self::total_winning(&mut wild_hand_bids)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day7
     }
 }
 

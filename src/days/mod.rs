@@ -1,4 +1,5 @@
 pub mod day;
+pub mod day_count;
 
 pub mod day1;
 pub mod day2;

@@ -2,6 +2,7 @@ mod elemento;
 mod gear;
 
 use super::day::Day;
+use super::day_count::DayCount;
 use elemento::Elemento;
 use gear::Gear;
 
@@ -20,6 +21,10 @@ impl<const N: usize, const M: usize> Day for Day3<N, M> {
     fn resultado_parte_2(&self) -> u64 {
         let mapa = Self::crear_mapa(&self.file);
         Self::calcular_gear_ratios(&mapa)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day3
     }
 }
 

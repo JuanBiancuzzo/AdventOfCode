@@ -1,6 +1,7 @@
 mod race;
 
 use super::day::Day;
+use super::day_count::DayCount;
 use race::Race;
 
 pub const ARCHIVO_DIA_6: &str = "src/days/day6/file";
@@ -16,6 +17,10 @@ impl Day for Day6 {
 
     fn resultado_parte_2(&self) -> u64 {
         Self::get_possibilities_holding_time(vec![Self::get_race(&self.file).unwrap()])
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day6
     }
 }
 

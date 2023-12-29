@@ -2,6 +2,7 @@ mod vector_ordenado;
 
 use vector_ordenado::InsersionOrdenada;
 use super::day::Day;
+use super::day_count::DayCount;
 
 pub const ARCHIVO_DIA_4: &str = "src/days/day4/file";
 
@@ -16,6 +17,10 @@ impl Day for Day4 {
 
     fn resultado_parte_2(&self) -> u64 {
         Self::calcular_cantidad_scratchcards(&self.file)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day4
     }
 }
 

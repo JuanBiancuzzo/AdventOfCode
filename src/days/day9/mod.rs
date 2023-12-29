@@ -1,6 +1,7 @@
 mod history;
 
 use super::day::Day;
+use super::day_count::DayCount;
 use history::History;
 
 pub const ARCHIVO_DIA_9: &str = "src/days/day9/file";
@@ -22,6 +23,10 @@ impl Day for Day9 {
             .map(|history| history.predict_previous_value())
             .sum::<i64>()
         ).unwrap()
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day9
     }
 }
 

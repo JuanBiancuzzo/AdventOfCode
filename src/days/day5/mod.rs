@@ -3,6 +3,7 @@ mod group_map;
 mod source_range;
 
 use super::day::Day;
+use super::day_count::DayCount;
 use source_range::SourceRange;
 use group_map::GroupMap;
 
@@ -35,6 +36,10 @@ impl Day for Day5 {
         };
 
         Self::get_minimum_seed(&mut Self::get_seeds_ranges(seeds), &group_maps)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day5
     }
 }
 

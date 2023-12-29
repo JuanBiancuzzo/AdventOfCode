@@ -4,6 +4,7 @@ mod instruction_loop;
 
 use std::collections::HashMap;
 use super::day::Day;
+use super::day_count::DayCount;
 
 use rl::RL;
 use key::Key;
@@ -37,6 +38,10 @@ impl Day for Day8 {
             .collect::<Vec<u64>>();
 
         Self::minimo_comun_multiplo_vec(&steps_per_key)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day8
     }
 }
 

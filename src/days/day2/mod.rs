@@ -1,4 +1,5 @@
 use super::day::Day;
+use super::day_count::DayCount;
 
 pub const ARCHIVO_DIA_2: &str = "src/days/day2/file";
 pub const CANT_ROJO: u64 = 12;
@@ -19,6 +20,10 @@ impl Day for Day2 {
 
     fn resultado_parte_2(&self) -> u64 {
         self.calcular_linea(&self.file, Self::filtrar_juego_minimo)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day2
     }
 }
 

@@ -1,4 +1,5 @@
 use super::day::Day;
+use super::day_count::DayCount;
 
 pub const ARCHIVO_DIA_1: &str = "src/days/day1/file";
 
@@ -13,6 +14,10 @@ impl Day for Day1 {
 
     fn resultado_parte_2(&self) -> u64 {
         self.calcular_codigo(&self.file, Self::calcular_linea_completo)
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day1
     }
 }
 
