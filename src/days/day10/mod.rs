@@ -4,6 +4,7 @@ mod map;
 mod direction;
 
 use super::day::Day;
+use super::day_count::DayCount;
 
 use elements::Element;
 use continuous_loop::ContinuousLoop;
@@ -23,6 +24,10 @@ impl<const N: usize, const M: usize> Day for Day10<N, M> {
 
     fn resultado_parte_2(&self) -> u64 {
         self.main_loop.get_inner_area()
+    }
+
+    fn day_count(&self) -> DayCount {
+        DayCount::Day10
     }
 }
 
@@ -84,7 +89,11 @@ impl<const N: usize, const M: usize> Day10<N, M> {
                 }
             }).collect::<Vec<ContinuousLoop>>();
         
-        posible_loops.first().expect("No se encontró un loop completo").clone()
+        let cloop = posible_loops.first().expect("No se encontró un loop completo").clone();
+        
+        // println!("{}", format!("{}", cloop));
+
+        cloop
     }   
 }
 

@@ -78,6 +78,21 @@ impl From<char> for Element {
     }
 }
 
+impl From<Element> for char {
+    fn from(value: Element) -> Self {
+        match value {
+            Element::VerticalPipe => '│',
+            Element::HorizontalPipe => '─',
+            Element::BendPipeUpRight => '└',
+            Element::BendPipeUpLeft => '┘',
+            Element::BendPipeDownLeft => '┐',
+            Element::BendPipeDownRight => '┌',
+            Element::Ground => '.',
+            Element::StartingPoint => 'S',
+        }
+    }
+}
+
 impl Default for Element {
     fn default() -> Self {
         Element::Ground
