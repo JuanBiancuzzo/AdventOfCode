@@ -52,6 +52,6 @@ pub fn get_days() -> Vec<ArcMut<dyn Day>> {
         Arc::new(Mutex::new(Day8::new(get_file_content(ARCHIVO_DIA_8)))),
         Arc::new(Mutex::new(Day9::new(get_file_content(ARCHIVO_DIA_9)))),
         Arc::new(Mutex::new(Day10::<140, 140>::new(get_file_content(ARCHIVO_DIA_10)))),
-        Arc::new(Mutex::new(Day11::new(get_file_content(ARCHIVO_DIA_11)))),
+        Arc::new(Mutex::new(Day11::<140, 140>::new(get_file_content(ARCHIVO_DIA_11)))),
     ]
 }
