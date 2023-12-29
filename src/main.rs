@@ -28,16 +28,25 @@ fn main() {
     let (sender, receiver) = mpsc::channel::<(usize, String)>();
     let handles = create_thread(sender);
 
-    for handle in handles {
-        handle.join().unwrap();
+    let mut messages: [Option<String>; days::day_count::NUMBER_DAYS] = Default::default();
+    let mut day_count = 0;
+
+    for (day_number, message) in receiver {
+        messages[day_number - 1] = Some(format!("{message}\n"));
+
+        if let Some(message) = messages[day_count].clone() {
+            print!("{}", message);
+            day_count += 1;
+        }
     }
 
-    let mut messages: [String; days::day_count::NUMBER_DAYS] = Default::default();
-    for (day_number, message) in receiver {
-        messages[day_number - 1] = format!("{message}\n");
-    }    
+    for i in day_count..days::day_count::NUMBER_DAYS {
+        if let Some(message) = messages[i].clone() {
+            print!("{}", message);
+        }
+    }
 
-    for message in messages {
-        print!("{}", message);
+    for handle in handles {
+        handle.join().unwrap();
     }
 }
