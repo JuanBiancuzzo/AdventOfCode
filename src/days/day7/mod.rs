@@ -33,7 +33,7 @@ impl Day7 {
         Day7 { file }
     }
 
-    fn parse_hands<'t, H>(file: &'t String) -> Vec<HandBid<'t, H>>
+    fn parse_hands<'t, H>(file: &'t str) -> Vec<HandBid<'t, H>>
         where H: TryFrom<&'t str> + PartialOrd,
         <H as TryFrom<&'t str>>::Error: std::fmt::Debug
     {
@@ -42,7 +42,7 @@ impl Day7 {
             .collect::<Vec<HandBid<H>>>()
     }
 
-    fn total_winning<'t, H>(hand_bids: &mut Vec<HandBid<'t, H>>) -> u64
+    fn total_winning<'t, H>(hand_bids: &mut [HandBid<'t, H>]) -> u64
         where H: TryFrom<&'t str> + PartialOrd + std::fmt::Debug + Clone,
         <H as TryFrom<&'t str>>::Error: std::fmt::Debug
     {
@@ -51,7 +51,7 @@ impl Day7 {
         hand_bids.iter()
             .enumerate()
             .map(|(index, hand_bids)| (index + 1) as u64 * hand_bids.bid as u64)
-            .sum::<u64>() as u64
+            .sum::<u64>()
     }
 }
 

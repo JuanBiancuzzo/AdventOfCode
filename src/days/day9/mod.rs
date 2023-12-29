@@ -28,7 +28,7 @@ impl Day for Day9 {
 impl Day9 {
     pub fn new(file: String) -> Day9 {
         let histories = file.lines()
-            .map(|line| History::from(line))
+            .map(History::from)
             .collect::<Vec<History>>();
 
         Day9 { histories }

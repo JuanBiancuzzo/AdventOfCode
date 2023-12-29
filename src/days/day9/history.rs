@@ -58,7 +58,7 @@ impl History {
 impl<'t> From<&'t str> for History {
     fn from(s: &'t str) -> Self {
         let values: Vec<i64> = s
-            .split(" ")
+            .split(' ')
             .filter_map(|s| s.parse::<i64>().ok())
             .collect();
 

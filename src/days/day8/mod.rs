@@ -60,14 +60,14 @@ impl Day8 {
         
         lines.iter()
             .for_each(|line| {
-                let (key, values) = line.split_once("=").unwrap();
+                let (key, values) = line.split_once('=').unwrap();
                 let key = Key::try_from(key).unwrap();
                 let values = values.trim()
                     .chars()
                     .filter(|c| *c != '(' && *c != ')')
                     .collect::<String>();
                 let (left, right) = values
-                    .split_once(",")
+                    .split_once(',')
                     .unwrap();
                 
                 key_value.insert(key, (Key::try_from(left).unwrap(), Key::try_from(right).unwrap()));
@@ -85,7 +85,7 @@ impl Day8 {
     fn number_of_steps<F>(
         initial_keys: &Vec<Key>, 
         ending_condition: F, 
-        mut instructions: InstructionLoop, 
+        instructions: InstructionLoop, 
         key_value: &HashMap<Key, (Key, Key)>
     ) -> u64 
         where F: Fn(Key) -> bool,
@@ -93,9 +93,9 @@ impl Day8 {
         let mut steps = 0;
         let mut next_keys = initial_keys.clone();
 
-        while let Some(instruction) = instructions.next() {
+        for instruction in instructions {
             next_keys = next_keys.iter_mut()
-                .map(|key| Self::get_next_key(&instruction, &key, &key_value))
+                .map(|key| Self::get_next_key(&instruction, key, key_value))
                 .collect::<Vec<Key>>();
 
             steps += 1;
@@ -122,8 +122,8 @@ impl Day8 {
         a
     }
 
-    fn minimo_comun_multiplo_vec(vec: &Vec<u64>) -> u64 {
-        let mut vec = vec.clone();
+    fn minimo_comun_multiplo_vec(vec: &[u64]) -> u64 {
+        let mut vec = vec.to_owned();
         vec.sort();
         vec.dedup();
 
