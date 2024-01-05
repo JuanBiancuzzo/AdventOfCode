@@ -1,15 +1,18 @@
 mod days;
 
-use std::thread::{self, JoinHandle};
-use std::sync::mpsc::{self, Sender};
+mod thread_pool;
+mod worker;
 
-fn create_thread(sender: Sender<(usize, String)>) -> Vec<JoinHandle<()>> {
-    let mut handles: Vec<JoinHandle<()>> = Vec::new();
+use std::sync::mpsc::{self, Sender};
+use thread_pool::ThreadPool;
+
+fn load_thread_pool(thread_pool: &ThreadPool, sender: Sender<(usize, String)>) {
+
     for day in days::get_days() {
         let day_clone = day.clone();
         let sender_clone = sender.clone();
 
-        let handle = thread::spawn(move || {
+        thread_pool.execute(move || {
             let day_clone = day_clone.lock().unwrap();
             
             let message = format!("{day_clone}");
@@ -17,16 +20,14 @@ fn create_thread(sender: Sender<(usize, String)>) -> Vec<JoinHandle<()>> {
 
             let _ = sender_clone.send((day_number, message));
         });
-
-        handles.push(handle);
     }
-
-    handles
 }
 
 fn main() {
     let (sender, receiver) = mpsc::channel::<(usize, String)>();
-    let handles = create_thread(sender);
+    let thread_pool = ThreadPool::new(5);
+
+    load_thread_pool(&thread_pool, sender);
 
     let mut messages: [Option<String>; days::day_count::NUMBER_DAYS] = Default::default();
     let mut day_count = 0;
@@ -44,9 +45,5 @@ fn main() {
         if let Some(message) = messages[i].clone() {
             print!("{}", message);
         }
-    }
-
-    for handle in handles {
-        handle.join().unwrap();
     }
 }

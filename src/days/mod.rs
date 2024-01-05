@@ -12,6 +12,7 @@ pub mod day8;
 pub mod day9;
 pub mod day10;
 pub mod day11;
+pub mod day12;
 
 use std::{fs::read_to_string, sync::{Mutex, Arc}};
 
@@ -29,29 +30,30 @@ use {day::Day,
     day9::{Day9, ARCHIVO_DIA_9},
     day10::{Day10, ARCHIVO_DIA_10},
     day11::{Day11, ARCHIVO_DIA_11},
+    day12::{Day12, ARCHIVO_DIA_12},
 };
 
-pub fn get_file_content(file_name: &str) -> String {
+fn get_file_content(file_name: &str) -> String {
     read_to_string(file_name).expect("Error al leer el archivo")
+}
+
+fn get_arc_mutex(day: impl Day + 'static) -> ArcMut<dyn Day> {
+    Arc::new(Mutex::new(day))
 }
 
 pub fn get_days() -> Vec<ArcMut<dyn Day>> {
     vec![
-        Arc::new(Mutex::new(Day1::new(get_file_content(ARCHIVO_DIA_1)))),
-        Arc::new(Mutex::new(Day2::new(
-            get_file_content(ARCHIVO_DIA_2),
-            CANT_ROJO,
-            CANT_VERDE,
-            CANT_AZUL,
-        ))),
-        Arc::new(Mutex::new(Day3::<140, 140>::new(get_file_content(ARCHIVO_DIA_3)))),
-        Arc::new(Mutex::new(Day4::new(get_file_content(ARCHIVO_DIA_4)))),
-        Arc::new(Mutex::new(Day5::new(get_file_content(ARCHIVO_DIA_5)))),
-        Arc::new(Mutex::new(Day6::new(get_file_content(ARCHIVO_DIA_6)))),
-        Arc::new(Mutex::new(Day7::new(get_file_content(ARCHIVO_DIA_7)))),
-        Arc::new(Mutex::new(Day8::new(get_file_content(ARCHIVO_DIA_8)))),
-        Arc::new(Mutex::new(Day9::new(get_file_content(ARCHIVO_DIA_9)))),
-        Arc::new(Mutex::new(Day10::<140, 140>::new(get_file_content(ARCHIVO_DIA_10)))),
-        Arc::new(Mutex::new(Day11::<140, 140>::new(get_file_content(ARCHIVO_DIA_11)))),
+        get_arc_mutex(Day1::new(get_file_content(ARCHIVO_DIA_1))),
+        get_arc_mutex(Day2::new(get_file_content(ARCHIVO_DIA_2), CANT_ROJO, CANT_VERDE, CANT_AZUL)),
+        get_arc_mutex(Day3::<140, 140>::new(get_file_content(ARCHIVO_DIA_3))),
+        get_arc_mutex(Day4::new(get_file_content(ARCHIVO_DIA_4))),
+        get_arc_mutex(Day5::new(get_file_content(ARCHIVO_DIA_5))),
+        get_arc_mutex(Day6::new(get_file_content(ARCHIVO_DIA_6))),
+        get_arc_mutex(Day7::new(get_file_content(ARCHIVO_DIA_7))),
+        get_arc_mutex(Day8::new(get_file_content(ARCHIVO_DIA_8))),
+        get_arc_mutex(Day9::new(get_file_content(ARCHIVO_DIA_9))),
+        get_arc_mutex(Day10::<140, 140>::new(get_file_content(ARCHIVO_DIA_10))),
+        get_arc_mutex(Day11::<140, 140>::new(get_file_content(ARCHIVO_DIA_11))),
+        get_arc_mutex(Day12::new(get_file_content(ARCHIVO_DIA_12))),
     ]
 }
