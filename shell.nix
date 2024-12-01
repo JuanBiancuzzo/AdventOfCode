@@ -4,6 +4,12 @@ mkShell {
 
     buildInputs = [
         zig_0_12
+        (writeShellScriptBin "test" ''
+            zig build test
+        '')
+        (writeShellScriptBin "run" ''
+            zig build run
+        '')
     ];
 
     shellHook = ''
