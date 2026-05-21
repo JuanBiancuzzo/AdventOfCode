@@ -98,13 +98,9 @@ fn secret_entrance(instructions: []const Instruction) i32 {
     var click: u16 = START_CLICK;
 
     for (instructions) |instruction| {
-        if (instruction.distance > MAX_CLICK) {
-            continue;
-        }
-
         switch (instruction.direction) {
             .LEFT => {
-                const inverse_distance: u16 = MAX_CLICK - instruction.distance;
+                const inverse_distance: u16 = 20 * MAX_CLICK - instruction.distance;
                 click = (click + inverse_distance) % MAX_CLICK;
             },
             .RIGHT => {
